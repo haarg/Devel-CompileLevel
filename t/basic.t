@@ -69,14 +69,30 @@ BEGIN {
       [ (::baz)[0..$#check] ],
       [ @check{@check} ],
       'compile_caller gives correct info through extra sub call';
+
+    {
+      @DB::args = ('guff');
+      () = ::compile_caller;
+      ::is_deeply [@DB::args], ['guff'],
+        '@DB::args not populated when called from non-DB package';
+
+      package DB;
+      () = ::compile_caller;
+      ::is_deeply [@DB::args], ['New::Willenium', 'garf' ],
+        '@DB::args populated when called from DB package';
+    }
   }
 }
 
 eval qq{
   package $check{package};
 #line $check{line} "$check{file}"
-  use New::Willenium;
+  use New::Willenium 'garf';
   1;
 } or die "$@";
+
+
+is_deeply [::compile_caller], [],
+  'compile_caller is empty when not compiling';
 
 done_testing;
