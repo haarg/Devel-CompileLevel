@@ -1,5 +1,5 @@
 use strict;
-use warnings;
+#use warnings; # we need to check with default warnings
 use Test::More;
 
 use Devel::CompileLevel qw(compile_level compile_caller);

@@ -17,7 +17,8 @@ sub compile_level () {
   no warnings;
   my $pre = ${^WARNING_BITS};
   my $level = 0;
-  while (my $hints = (caller(++$level))[9]) {
+  while (my @caller = caller(++$level)) {
+    my $hints = $caller[9];
     next
       unless $hints eq ${^WARNING_BITS};
     ${^WARNING_BITS} ^= "\x01";
