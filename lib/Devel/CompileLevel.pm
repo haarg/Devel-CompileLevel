@@ -4,10 +4,9 @@ use warnings;
 no warnings 'once';
 
 our $VERSION = '0.001000';
-$VERSION = eval $VERSION;
+$VERSION =~ tr/_//d;
 
-use Exporter ();
-*import = \&Exporter::import;
+use Exporter (); BEGIN { *import = \&Exporter::import }
 
 our @EXPORT_OK = qw(
   compile_level
