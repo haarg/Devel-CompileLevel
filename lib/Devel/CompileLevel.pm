@@ -15,15 +15,14 @@ our @EXPORT_OK = qw(
 
 sub compile_level () {
   no warnings;
-  my $pre = ${^WARNING_BITS};
+  local ${^WARNING_BITS} = $warnings::NONE;
   my $level = 0;
   while (my @caller = caller(++$level)) {
     my $hints = $caller[9];
     next
-      unless $hints eq ${^WARNING_BITS};
+      if $hints ne ${^WARNING_BITS};
     ${^WARNING_BITS} ^= "\x01";
     my $newhints = (caller($level))[9];
-    ${^WARNING_BITS} = $pre;
     if ($newhints ne $hints) {
       return $level - 1;
     }
