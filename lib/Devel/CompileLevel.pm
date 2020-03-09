@@ -3,7 +3,7 @@ use strict;
 use warnings;
 no warnings 'once';
 
-our $VERSION = '0.001003';
+our $VERSION = '0.001004';
 $VERSION =~ tr/_//d;
 
 use Exporter (); BEGIN { *import = \&Exporter::import }
